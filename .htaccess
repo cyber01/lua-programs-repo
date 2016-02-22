@@ -1,0 +1,48 @@
+AddDefaultCharset UTF-8
+php_value display_errors 0
+Options All -Indexes
+<FilesMatch ".(htaccess|htpasswd|tpl)$">
+	Order Allow,Deny
+	Deny from all
+</FilesMatch>
+
+RewriteEngine on
+
+# Просто страницы
+RewriteRule ^main/?$ ?page=main
+RewriteRule ^about/?$ ?page=about
+RewriteRule ^stop/?$ ?page=error
+RewriteRule ^catalog/?$ ?page=catalog
+RewriteRule ^contacts/?$ ?page=contacts
+RewriteRule ^auth/?$ ?page=auth
+RewriteRule ^logout/?$ ?page=auth&action=logout
+RewriteRule ^progs/?$ ?page=progs
+RewriteRule ^profile/$ ?page=profile
+#RewriteRule ^tags/$ ?page=tags
+
+
+
+# Динамические страницы
+RewriteRule ^cat/([A-z0-9]+)/?$ ?page=cat&catname=$1
+#RewriteRule ^tags/(.*)/?$ ?page=tags&tag=$1
+RewriteRule ^program/([A-z0-9]+)/?$ ?page=program&id=$1
+RewriteRule ^download/([0-9]+)/?$ /misc/download.php?id=$1
+RewriteRule ^progs/add/?$ ?page=progsadd
+RewriteRule ^progs/edit/([A-z0-9]+)/?$ ?page=progsedit&id=$1
+RewriteRule ^progs/del/([0-9]+)/? ?page=progsdel&id=$1
+RewriteRule ^api/([A-z0-9]+)/([A-z0-9]+)/?$ /misc/api.php?action=$1&value=$2
+RewriteRule ^api/([A-z0-9]+)/([A-z0-9]+)/([A-z0-9]+)/?$ /misc/api.php?action=$1&value=$2&id=$3
+
+# Страницы ошибок
+ErrorDocument 400 /stop/
+ErrorDocument 403 /stop/
+ErrorDocument 404 /stop/
+ErrorDocument 405 /stop/
+ErrorDocument 408 /stop/
+ErrorDocument 500 /stop/
+ErrorDocument 502 /stop/
+ErrorDocument 504 /stop/
+
+
+
+
